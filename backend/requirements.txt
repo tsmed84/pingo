@@ -1,0 +1,22 @@
+django>=5.0
+djangorestframework>=3.14.0
+
+# Database
+psycopg2-binary>=2.9.0
+
+# Authentication
+djangorestframework-simplejwt>=5.2.0
+
+# WebSocket support
+channels[daphne]>=4.0.0
+channels-redis>=4.1.0
+
+# CORS handling (for frontend communication)
+django-cors-headers>=4.0.0
+
+# Environment variables
+django-environ
+
+# Optional but useful
+pillow>=10.0.0
+redis>=4.5.0
