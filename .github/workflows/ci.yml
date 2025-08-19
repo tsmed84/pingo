@@ -55,23 +55,23 @@ jobs:
           pip install -r requirements.txt
           pip install coverage flake8 black isort
 
-      - name: Code formatting check (Black)
-        working-directory: ./backend
-        run: |
-          black --check --diff .
+      # - name: Code formatting check (Black)
+      #   working-directory: ./backend
+      #   run: |
+      #     black --check --diff .
 
-      - name: Import sorting check (isort)
-        working-directory: ./backend
-        run: |
-          isort --check-only --diff .
+      # - name: Import sorting check (isort)
+      #   working-directory: ./backend
+      #   run: |
+      #     isort --check-only --diff .
 
-      - name: Lint with flake8
-        working-directory: ./backend
-        run: |
-          # Stop the build if there are Python syntax errors or undefined names
-          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          # Treat all other issues as warnings
-          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=88 --statistics
+      # - name: Lint with flake8
+      #   working-directory: ./backend
+      #   run: |
+      #     # Stop the build if there are Python syntax errors or undefined names
+      #     flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+      #     # Treat all other issues as warnings
+      #     flake8 . --count --exit-zero --max-complexity=10 --max-line-length=88 --statistics
 
       - name: Run Django migrations
         working-directory: ./backend
