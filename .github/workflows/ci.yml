@@ -49,20 +49,24 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Install dependencies
+        working-directory: ./backend
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install coverage flake8 black isort
 
       - name: Code formatting check (Black)
+        working-directory: ./backend
         run: |
           black --check --diff .
 
       - name: Import sorting check (isort)
+        working-directory: ./backend
         run: |
           isort --check-only --diff .
 
       - name: Lint with flake8
+        working-directory: ./backend
         run: |
           # Stop the build if there are Python syntax errors or undefined names
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
@@ -70,10 +74,12 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=88 --statistics
 
       - name: Run Django migrations
+        working-directory: ./backend
         run: |
           python manage.py migrate
 
       - name: Run tests with coverage
+        working-directory: ./backend
         run: |
           coverage run --source='.' manage.py test
           coverage report --show-missing
@@ -82,11 +88,12 @@ jobs:
       - name: Upload coverage reports
         uses: codecov/codecov-action@v3
         with:
-          file: ./coverage.xml
+          file: ./backend/coverage.xml
           flags: unittests
           name: codecov-umbrella
 
       - name: Check Django deployment readiness
+        working-directory: ./backend
         run: |
           python manage.py check --deploy
 
@@ -104,16 +111,19 @@ jobs:
           python-version: "3.13"
 
       - name: Install dependencies
+        working-directory: ./backend
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install safety bandit
 
       - name: Run security checks with Safety
+        working-directory: ./backend
         run: |
           safety check
 
       - name: Run security checks with Bandit
+        working-directory: ./backend
         run: |
           bandit -r . -x tests/ -f json -o bandit-report.json || true
           bandit -r . -x tests/ --severity-level medium
@@ -123,4 +133,4 @@ jobs:
         if: always()
         with:
           name: security-reports
-          path: bandit-report.json
+          path: .backend/bandit-report.json
