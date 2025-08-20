@@ -28,6 +28,13 @@ class Server(TimeStampedBaseModel):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # Ensure owner automatically becomes a member with role="owner"
+        ServerMembership.objects.get_or_create(
+            user=self.owner, server=self, defaults={"role": "owner"}
+        )
+
     @property
     def get_member_count(self):
         return self.members.count()
