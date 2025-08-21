@@ -40,7 +40,7 @@ class Server(TimeStampedBaseModel):
         return self.members.count()
 
 
-class ServerMembership(models.Model):
+class ServerMembership(TimeStampedBaseModel):
     MEMBERSHIP_CHOICES = (
         ("owner", "Owner"),
         ("admin", "Admin"),
@@ -57,7 +57,6 @@ class ServerMembership(models.Model):
         Server, on_delete=models.CASCADE, related_name="membership"
     )
     role = models.CharField(max_length=10, choices=MEMBERSHIP_CHOICES, default="member")
-    joined_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.user.display_name} - {self.server.name}"
